@@ -11,8 +11,7 @@ class FileStorage:
     def all(self, cls=None):
         """Returns the list of objects of one type of class or all classes"""
         if cls:
-            objects = self.all()
-            result = {key: value for key, value in objects.items() if
+            result = {key: value for key, value in FileStorage.__objects.items() if
                       type(value) == cls}
             return result
         else:
