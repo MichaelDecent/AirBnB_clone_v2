@@ -41,7 +41,7 @@ class BaseModel:
                 self.updated_at = datetime.now()
                 self.__dict__.update(kwargs)
 
-    def __str__(self):
+    def __repr__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
         if '_sa_instance_state' in self.__dict__:
