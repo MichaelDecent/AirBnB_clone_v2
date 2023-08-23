@@ -32,7 +32,7 @@ class DBStorage:
 
         """Establishing connection"""
         db_url = f"mysql+mysqldb://{usr}:{pwd}@{host}/{database}"
-        self.__engine = create_engine(db_url, pool_pre_ping=True)
+        self.__engine = create_engine(db_url)
         if current_env == 'test':
             Base.metadata.drop_all(self.__engine)
 
