@@ -46,7 +46,9 @@ class DBStorage:
                 cls: the class to return is object
         """
         obj_list = []
-
+        if isinstance(str, cls):
+                cls = eval(cls)
+                
         if cls in DBStorage.__valid_classes:
             obj_list = self.__session.query(cls).all()
         else:

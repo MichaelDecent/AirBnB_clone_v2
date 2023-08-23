@@ -13,3 +13,4 @@ class City(BaseModel, Base):
         state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
     else:
         name = ""
+        state_id = ""
