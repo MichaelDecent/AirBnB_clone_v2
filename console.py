@@ -231,7 +231,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             objs_dict = storage.all()
             for k, v in objs_dict.items():
-                print_list.append(str(v))
+                print_list.appendstr(str(v))
 
         print(print_list)
 
