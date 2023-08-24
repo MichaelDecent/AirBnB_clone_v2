@@ -32,7 +32,7 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         reviews = relationship("Review", backref="place")
-        amenities = relationship("Amenity", secondary=place_amenity, back_populates="places_amenities", viewonly=False)
+        amenities = relationship("Amenity", secondary=place_amenity, back_populates="place_amenities", viewonly=False)
         amenity_ids = []
 
     else:
@@ -63,7 +63,7 @@ class Place(BaseModel, Base):
         for adding an Amenity.id to the attribute amenity_ids
         """
         from models.amenity import Amenity
-        
+
         if type(obj) != Amenity:
             return
         if obj.id in self.amenity_ids:
