@@ -63,6 +63,9 @@ class FileStorage:
             obj: Object to delete
         """
         if obj:
-            key = obj.to_dict()['__class__'] + '.' + obj.id
+            key = f"{obj.__class__.__name__}.{obj.id}"
             if key in FileStorage.__objects:
                 del FileStorage.__objects[key]
+                FileStorage.save(self)
+        else: 
+            return
