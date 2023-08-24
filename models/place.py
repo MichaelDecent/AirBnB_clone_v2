@@ -1,9 +1,21 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Float, ForeignKey, Integer
+from sqlalchemy import Column, String, Float, ForeignKey, Integer, Table
 from models import storage_type
 from sqlalchemy.orm import relationship
+from models.amenity import  Amenity
+
+
+place_amenity = Table("place_amenity", Base.metadata,
+    Column("place_id", String(60),
+            ForeignKey('places.id'),
+            primary_key=True,
+            nullable=False),
+    Column("amenity_id", String(60),
+            ForeignKey('amenities.id'),
+            primary_key=True,
+            nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -22,6 +34,7 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         amenity_ids = []
         reviews = relationship("Review", backref="place")
+        amenities = relationship("Amenity", secondary=place_amenity, backref="place", viewonly=False)
 
     else:
         city_id = user_id = name = description = ""
@@ -30,7 +43,29 @@ class Place(BaseModel, Base):
     
     @property
     def reviews(self):
-        """ getter for reviews that returns a list of Review instances"""
         from models.review import Review
         from models import storage
+        """ getter for reviews that returns a list of Review instances"""
         return [obj for obj in storage.all(Review).values if obj.place_id == self.id]
+
+    @property
+    def amenities(self):
+        """ a getter for amenities thta returns a list of Amenity Instances """
+        from models import storage
+        return [obj for obj in storage.all(Amenity).values() if obj.id in self.amenity_ids] 
+    
+    @amenities.setter
+    def amenities(self, obj):
+        """
+        """
+        from models.amenity import Amenity
+        if type(obj) != Amenity:
+            return
+        if obj.id in self.amenity_ids:
+            self.amenity_ids.append(obj.id)
+
+
+            
+
+            
+
