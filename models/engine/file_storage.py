@@ -62,18 +62,10 @@ class FileStorage:
         Args:
             obj: Object to delete
         """
-        from models.base_model import BaseModel
-
-        if not obj:
-            return
-
-        if not isinstance(obj, BaseModel):
-            raise TypeError("{} must be an instance of BaseModel".format(obj))
-
-        try:
-            key = "{}.{}".format(obj.__class__.__name__, obj.id)
-            del FileStorage.__objects[key]
-            FileStorage.save(self)
-        except KeyError:
-            pass
+        if obj:
+            key = f"{obj.__class__.__name__}.{obj.id}"
+            if key in FileStorage.__objects:
+                del FileStorage.__objects[key]
+                FileStorage.save(self)
+        else: 
             return
