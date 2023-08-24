@@ -4,7 +4,6 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Float, ForeignKey, Integer, Table
 from models import storage_type
 from sqlalchemy.orm import relationship
-from models.amenity import  Amenity
 
 if storage_type == "db":
     place_amenity = Table("place_amenity", Base.metadata,
@@ -33,7 +32,7 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         reviews = relationship("Review", backref="place")
-        amenities = relationship("Amenity", secondary=place_amenity, back_populates="places", viewonly=False)
+        amenities = relationship("Amenity", secondary=place_amenity, back_populates="places_amenities", viewonly=False)
         amenity_ids = []
 
     else:
@@ -53,6 +52,8 @@ class Place(BaseModel, Base):
     def amenities(self):
         """ a getter for amenities that returns a list of Amenity Instances """
         from models import storage
+        from models.amenity import Amenity
+
         return [obj for obj in storage.all(Amenity).values() if obj.id in self.amenity_ids] 
     
     @amenities.setter
@@ -62,6 +63,7 @@ class Place(BaseModel, Base):
         for adding an Amenity.id to the attribute amenity_ids
         """
         from models.amenity import Amenity
+        
         if type(obj) != Amenity:
             return
         if obj.id in self.amenity_ids:
