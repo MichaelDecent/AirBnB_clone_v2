@@ -32,14 +32,15 @@ class Place(BaseModel, Base):
         price_by_night = Column(Integer, default=0, nullable=False)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
-        amenity_ids = []
         reviews = relationship("Review", backref="place")
         amenities = relationship("Amenity", secondary=place_amenity, backref="place", viewonly=False)
+        amenity_ids = []
 
     else:
         city_id = user_id = name = description = ""
         number_rooms = number_bathrooms = max_guest = price_by_night = 0
         latitude = longitude = 0.0
+        amenity_ids = []
     
     @property
     def reviews(self):
@@ -50,13 +51,15 @@ class Place(BaseModel, Base):
 
     @property
     def amenities(self):
-        """ a getter for amenities thta returns a list of Amenity Instances """
+        """ a getter for amenities that returns a list of Amenity Instances """
         from models import storage
         return [obj for obj in storage.all(Amenity).values() if obj.id in self.amenity_ids] 
     
     @amenities.setter
     def amenities(self, obj):
         """
+        Asetter that for amenities  that handles append method
+        for adding an Amenity.id to the attribute amenity_ids
         """
         from models.amenity import Amenity
         if type(obj) != Amenity:
