@@ -5,7 +5,6 @@ from sqlalchemy import Column, String
 from models import storage_type
 from sqlalchemy.orm import relationship
 
-
 class Amenity(BaseModel, Base):
     __tablename__ = 'amenities'
     
