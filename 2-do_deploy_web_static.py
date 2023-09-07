@@ -3,6 +3,8 @@
 a Fabric script (based on the file 1-pack_web_static.py)
 that distributes an archive to your web servers, using the function do_deploy
 """
+
+
 from fabric.api import *
 from os.path import exists
 
@@ -12,6 +14,8 @@ env.key_filename = '/home/vagrant/.ssh/id_rsa'
 
 
 def do_deploy(archive_path):
+    """Deploys the web static to the server"""
+    
     if not exists(archive_path):
         return False
     try:
@@ -22,7 +26,8 @@ def do_deploy(archive_path):
 
         print(f"Deploying new_version from {archive_path}")
         put(archive_path, f"/tmp/{archive_name}")
-        run(f"tar -xzf /tmp/{archive_name} -C {release_version} --strip-components=1")
+        run(f"tar -xzf /tmp/{archive_name} \
+-C {release_version} --strip-components=1")
         run(f"rm /tmp/{archive_name}")
         run(f"rm -f {sym_link}")
         run(f"ln -s {release_version} {sym_link}")
