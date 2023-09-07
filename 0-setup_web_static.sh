@@ -25,9 +25,9 @@ fi
 
 if [ -e "$symlink" ]; then
     sudo rm -rf "$symlink"
-    sudo ln -s "$dir_1"/ "$symlink"
+    sudo ln -s "$dir_1" "$symlink"
 else
-    sudo ln -s "$dir_1"/ "$symlink"
+    sudo ln -s "$dir_1" "$symlink"
 fi
 
 sudo chown -R $USER:$USER /data/
