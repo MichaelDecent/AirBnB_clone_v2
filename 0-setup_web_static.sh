@@ -10,7 +10,7 @@ if ! command -v nginx; then
 fi
 
 # configure the Nginx config file to deploy static files
-dir_1="/data/web_static/releases/test"
+dir_1="/data/web_static/releases/test/"
 symlink="/data/web_static/current"
 dir_2="/data/web_static/shared/"
 
