@@ -12,7 +12,7 @@ def do_pack():
     """ Generates a .tgz archive from the folder web_static folder
     """
     local("mkdir -p versions")
-    
+
     date = datetime.now().strftime("%Y%m%d%H%M%S")
     archive_name = f"versions/web_static_{date}.tgz"
 
