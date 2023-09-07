@@ -30,13 +30,13 @@ else
     sudo ln -s "$dir_1" "$symlink"
 fi
 
-sudo chown -R $USER:$USER /data/
+sudo chown -R ubuntu:ubuntu /data/
 
 sudo sh -c 'echo "server {
 	listen 80;
 	listen [::]:80;
 
-	server_name michaeldecent.tech;
+	server_name michaeldecent.tech www.michaeldecent.tech;
 
 	root /data/web_static/current;
 	index index.html;
