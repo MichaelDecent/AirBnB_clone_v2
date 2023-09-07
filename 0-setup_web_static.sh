@@ -46,13 +46,6 @@ sudo sh -c 'echo "server {
 	}
 }" > /etc/nginx/sites-available/default'
 
-# testimg config files
-if sudo nginx -t; then
-    echo "Nginx Configuration File Correct!"
-else
-    echo "Error with Nginx Configuration File\nFor futher details check error.log"
-fi
-
 # Restarting Nginx
 if sudo service nginx restart; then
     echo "Restart Succesful"
