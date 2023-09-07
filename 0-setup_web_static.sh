@@ -47,10 +47,6 @@ sudo sh -c 'echo "server {
 }" > /etc/nginx/sites-available/default'
 
 # Restarting Nginx
-if sudo service nginx restart; then
-    echo "Restart Succesful"
-else
-    echo "Failed to Restart\nFor futher details check error.log"
-fi
+sudo service nginx restart;
 
 echo "All Done!"
