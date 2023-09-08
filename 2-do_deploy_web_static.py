@@ -15,25 +15,25 @@ env.key_filename = '/home/vagrant/.ssh/id_rsa'
 
 def do_deploy(archive_path):
     """Deploys the web static to the server"""
+
     if not exists(archive_path):
         return False
-
     try:
-        archive_name = archive_path.split("/")[-1]
-        folder_name = archive_name.split(".")[0]
-        releaseVersion = "/data/web_static/releases/{}/".format(folder_name)
-        symLink = "/data/web_static/current"
+        archive_name = archive_path.split('/')[-1]
+        file_name = archive_name.split('.')[0]
+        sym_link = "/data/web_static/current"
+        release_version = f"/data/web_static/releases/{file_name}/"
 
-        print("Deploying new version from {}...".format(folder_name))
-        put(archive_path, "/tmp/{}".format(archive_name))
-        run("mkdir -p {}".format(releaseVersion))
-        run("tar -xzf /tmp/{} -C {} --strip-components=1".format(
-            archive_name, releaseVersion))
-        run("rm /tmp/{}".format(archive_name))
-        run("rm -f {}".format(symLink))
-        run("ln -s {} {}".format(releaseVersion, symLink))
-        print("New version deployed -> {}".format(releaseVersion))
+        print(f"Deploying new_version from {archive_path}")
+        put(archive_path, f"/tmp/{archive_name}")
+        run(f"mkdir -p {release_version}")
+        run(f"tar -xzf /tmp/{archive_name} \
+-C {release_version} --strip-components=1")
+        run(f"rm /tmp/{archive_name}")
+        run(f"rm -f {sym_link}")
+        run(f"ln -s {release_version} {sym_link}")
+        print(f"New Version Deployed --> {release_version}")
         return True
-    except Exception:
-        print("Failed to deploy new version -> {}".format(releaseVersion))
+    except Exception as e:
+        print(f"Failed to Deploy New Version --> {release_version}\n{str(e)}")
         return False
