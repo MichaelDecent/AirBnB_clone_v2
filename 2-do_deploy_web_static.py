@@ -32,7 +32,7 @@ def do_deploy(archive_path):
         run(f"rm /tmp/{archive_name}")
         run(f"rm -f {sym_link}")
         run(f"ln -s {release_version} {sym_link}")
-        print(f"New Version Deployed --> {released_version}")
+        print(f"New Version Deployed --> {release_version}")
         return True
     except Exception as e:
         print(f"Failed to Deploy New Version --> {release_version}\n{str(e)}")
