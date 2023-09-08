@@ -41,7 +41,7 @@ def do_deploy(archive_path):
         sym_link = "/data/web_static/current"
         release_version = f"/data/web_static/releases/{file_name}/"
 
-        print(f"Deploying new_version from {archive_path}\n")
+        print(f"\nDeploying new_version from {archive_path}\n")
         put(archive_path, f"/tmp/{archive_name}")
         run(f"mkdir -p {release_version}")
         run(f"tar -xzf /tmp/{archive_name} \
@@ -49,7 +49,7 @@ def do_deploy(archive_path):
         run(f"rm /tmp/{archive_name}")
         run(f"rm -f {sym_link}")
         run(f"ln -s {release_version} {sym_link}")
-        print(f"\nNew Version Deployed --> {release_version}")
+        print(f"\nNew Version Deployed --> {release_version}\n")
         return True
     except Exception as e:
         print(f"\nFailed to Deploy New Version -->{release_version}\n{str(e)}")
