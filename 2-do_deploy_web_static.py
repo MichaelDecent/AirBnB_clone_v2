@@ -26,12 +26,14 @@ def do_deploy(archive_path):
 
         print(f"Deploying new_version from {archive_path}")
         put(archive_path, f"/tmp/{archive_name}")
-        run(f"tar -xzf /tmp/{archive_name} -C {release_version} --strip-components=1")
+        run(f"mkdir -p {release_version}")
+        run(f"tar -xzf /tmp/{archive_name} \
+-C {release_version} --strip-components=1")
         run(f"rm /tmp/{archive_name}")
         run(f"rm -f {sym_link}")
         run(f"ln -s {release_version} {sym_link}")
-        print("New Version Deployed!")
+        print(f"New Version Deployed --> {released_version}")
         return True
     except Exception as e:
-        print(str(e))
+        print(f"Failed to Deploy New Version --> {release_version}\n{str(e)}")
         return False
