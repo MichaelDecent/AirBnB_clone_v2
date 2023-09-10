@@ -32,19 +32,21 @@ fi
 
 sudo chown -R ubuntu:ubuntu /data/
 
-sudo sh -c 'echo "server {
-	listen 80;
-	listen [::]:80;
+if ! cat /etc/nginx/sites-available/default | grep -q "michaeldecent.tech"; then
+    sudo sh -c 'echo "server {
+    	listen 80;
+    	listen [::]:80;
 
-	server_name michaeldecent.tech www.michaeldecent.tech;
+    	server_name michaeldecent.tech www.michaeldecent.tech;
 
-	root /data/web_static/current;
-	index index.html;
+    	root /data/web_static/current;
+    	index index.html;
 
-	location /hbnb_static {
-	alias /data/web_static/current;
-	}
-}" > /etc/nginx/sites-available/default'
+    	location /hbnb_static {
+    	alias /data/web_static/current;
+    	}
+}" >> /etc/nginx/sites-available/default'
+fi
 
 # Restarting Nginx
 sudo service nginx restart;
