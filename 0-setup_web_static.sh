@@ -32,8 +32,10 @@ fi
 
 sudo chown -R ubuntu:ubuntu /data/
 
-sudo sed -i '0,/^\(\s*\)server_name\s*.*$/s//\1server_name michaeldecent.tech www.michaeldecent.tech;/' /etc/nginx/sites-available/default
-sudo sed -i '0,/^\(\s*\)server_name michaeldecent.tech www.michaeldecent.tech;$/s//&\n\n\1location \/hbnb_static {\n\1\1alias \/data\/web_static\/current\/;\n\1\1autoindex off;\n\1}/' /etc/nginx/sites-available/default
+if ! cat  /etc/nginx/sites-enabled/default | grep -q "michaeldecent.tech"; then
+    sudo sed -i '0,/^\(\s*\)server_name\s*.*$/s//\1server_name michaeldecent.tech www.michaeldecent.tech;/' /etc/nginx/sites-available/default
+    sudo sed -i '0,/^\(\s*\)server_name michaeldecent.tech www.michaeldecent.tech;$/s//&\n\n\1location \/hbnb_static {\n\1\1alias \/data\/web_static\/current\/;\n\1\1autoindex off;\n\1}/' /etc/nginx/sites-available/default
+fi
 
 # Restarting Nginx
 sudo service nginx restart;
