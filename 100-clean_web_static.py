@@ -22,7 +22,7 @@ def do_clean(number=0):
     run_locally = getenv("run_locally", None)
     if run_locally is None:
         with lcd("versions"):
-            local(f"$(ls -t | tail -n +{1 + number} | sudo xargs rm)")
+            local(f"$(ls -t | tail -n +{1 + number} | sudo xargs -- rm -rf)")
         with lcd("/data/web_static/releases"):
             local(f"$(ls -t | tail -n +{1 + number} \
 | grep -v 'test' | sudo xargs rm -rf)")
