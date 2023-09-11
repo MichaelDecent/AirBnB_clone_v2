@@ -1,65 +1,58 @@
-# Define a class for setting up web servers
-class profile::web_server {
-  package { 'nginx':
-    ensure => installed,
-  }
+# Puppet manifest to install nginx and setup some directories and a symlink
 
-  $dir_1 = '/data/web_static/releases/test/'
-  $symlink = '/data/web_static/current'
-  $dir_2 = '/data/web_static/shared/'
-
-  file { $dir_1:
-    ensure => directory,
-    owner  => 'ubuntu',
-    group  => 'ubuntu',
-    mode   => '0755',
-  }
-
-  file { "${dir_1}index.html":
-    ensure  => file,
-    content => '<html><head></head><body>Holberton School</body></html>',
-    owner   => 'ubuntu',
-    group   => 'ubuntu',
-    mode    => '0644',
-  }
-
-  file { $dir_2:
-    ensure => directory,
-    owner  => 'ubuntu',
-    group  => 'ubuntu',
-    mode   => '0755',
-  }
-
-  file { $symlink:
-    ensure  => link,
-    target  => $dir_1,
-    owner   => 'ubuntu',
-    group   => 'ubuntu',
-  }
-
-  file { '/etc/nginx/sites-available/default':
-    ensure  => present,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template('profile/web_server/nginx_config.erb'),
-    notify  => Service['nginx'],
-  }
-
-  service { 'nginx':
-    ensure    => running,
-    enable    => true,
-    hasstatus => true,
-    hasrestart => true,
-  }
+exec { 'update-index':
+    command => '/usr/bin/apt-get update',
 }
 
-# Define an ERB template for the Nginx configuration
+package { 'nginx':
+    ensure  => installed,
+    require => Exec[ 'update-index' ],
+}
+
+file { ['/data', '/data/web_static/', '/data/web_static/releases/', '/data/web_static/releases/test/', '/data/web_static/shared/']:
+    ensure => directory,
+}
+
+exec { 'chown -hR ubuntu:ubuntu /data':
+    path    => '/usr/bin/:/usr/local/bin/:/bin/',
+    require => File[ '/data' ],
+}
+
+file { '/data/web_static/releases/test/index.html':
+    ensure  => file,
+    content => '<html><head><title>Test HTML File</title></head><body><h1>Hello World!</h1></body></html>',
+    require => File[ '/data/web_static/releases/test' ],
+}
+
+file { '/data/web_static/current':
+    ensure  => link,
+    target  => '/data/web_static/releases/test/',
+    force   => true,
+    require => [File[ '/data/web_static/releases/test/index.html' ], Exec['chown -hR ubuntu:ubuntu /data']],
+}
+
 file { '/etc/nginx/sites-available/default':
-  ensure  => present,
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',
-  content => template('profile/web_server/nginx_config.erb'),
-  notify  => Service['nginx'],
+    ensure  => present,
+    content => 'server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name michaeldecent.tech www.michaeldecent.tech;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location /hbnb_static {
+        alias /data/web_static/current/;
+        autoindex off;
+    }
+}',
+}
+
+service { 'nginx':
+    ensure    => running,
+    enable    => true,
+    subscribe => File[ '/etc/nginx/sites-available/default' ],
 }
