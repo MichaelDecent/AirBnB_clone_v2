@@ -7,6 +7,7 @@
 
 from fabric.api import *
 from os.path import exists
+from os import getenv, environ
 from datetime import datetime
 
 env.hosts = ['54.208.65.105', '18.209.152.183']
