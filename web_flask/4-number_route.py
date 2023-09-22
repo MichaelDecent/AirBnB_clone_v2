@@ -27,6 +27,7 @@ def c_text(text):
     text = text.replace('_', ' ')
     return f"C {escape(text)}"
 
+
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def python_text(text=None):
@@ -36,6 +37,7 @@ def python_text(text=None):
 
     text = text.replace('_', ' ')
     return f"Python {escape(text)}"
+
 
 @app.route('/number/<int:n>')
 def number_n(n):
