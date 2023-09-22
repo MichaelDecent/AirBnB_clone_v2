@@ -43,11 +43,11 @@ def number_n(n):
     """displays a n if it is an integer"""
     return f"{escape(n)} is a number"
 
+
 @app.route('/number_template/<int:n>')
 def number_template(n):
     """ display a template"""
     return render_template('5-number.html', n=n)
-
 
 
 if __name__ == '__main__':
