@@ -9,10 +9,15 @@ app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
-@app.route('/hbnb', strict_slashes=False)
-def hello_page():
+def home_page():
     """ This returns a string """
     return "Hello HBNB!"
+
+
+@app.route('/hbnb', strict_slashes=False)
+def HBNB_page():
+    """ Returns 'HBNB' """"
+    return "HBNB"
 
 
 if __name__ == '__main__':
