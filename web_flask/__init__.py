@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 this script starts the web flask application
 """
