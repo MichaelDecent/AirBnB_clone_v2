@@ -4,9 +4,10 @@ this module handle a route to my home page
 """
 from web_flask import app
 
-
 @app.route('/', strict_slashes=False)
 @app.route('/hbnb', strict_slashes=False)
+
+
 def hello_page():
     """ This returns a string """
     return "Hello HBNB!"
