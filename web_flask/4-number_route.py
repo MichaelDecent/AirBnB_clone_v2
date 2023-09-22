@@ -37,6 +37,10 @@ def python_text(text=None):
     text = text.replace('_', ' ')
     return f"Python {escape(text)}"
 
+@app.route('/number/<int:n>')
+def number_n(n):
+    """displays a n if it is an integer"""
+    return f"{escape(n)} is a number"
 
 
 if __name__ == '__main__':
