@@ -23,6 +23,6 @@ class State(BaseModel, Base):
         returns the list of City instance
         """
         from models import storage
-        from models.ciiy import City
+        from models.city import City
         return [obj for obj in storage.all(
             City).values() if self.id == obj.state_id]
