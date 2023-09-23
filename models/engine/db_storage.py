@@ -47,8 +47,8 @@ class DBStorage:
         """
         obj_list = []
         if isinstance(str, cls):
-                cls = eval(cls)
-                
+            cls = eval(cls)
+
         if cls in DBStorage.__valid_classes:
             obj_list = self.__session.query(cls).all()
         else:
@@ -89,4 +89,4 @@ class DBStorage:
 
     def close(self):
         """ call remove() method on the private session attribute """
-        self.__session.remove()  
+        self.__session.remove()
