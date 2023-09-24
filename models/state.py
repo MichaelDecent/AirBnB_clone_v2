@@ -5,14 +5,14 @@ from sqlalchemy import String, Column
 from sqlalchemy.orm import relationship
 from models import storage_type
 
-
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
 
     if storage_type == "db":
         name = Column(String(128), nullable=False)
-        cities = relationship("City", backref="state")
+        cities = relationship("City", backref="state",
+                              cascade="all, delete, delete-orphan")
     else:
         name = ""
 
@@ -24,5 +24,6 @@ class State(BaseModel, Base):
         """
         from models import storage
         from models.city import City
-        return [obj for obj in storage.all(
+
+        return [obj for obj in models.storage.all(
             City).values() if self.id == obj.state_id]

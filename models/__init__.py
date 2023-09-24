@@ -5,7 +5,6 @@ which allows changing storage type directly by using environmental variable
 """
 from os import getenv
 
-
 storage_type = getenv('HBNB_TYPE_STORAGE', 'my curent storage type')
 
 if storage_type == 'db':
