@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+"""
+This Module handles a route that returns a list of states
+"""
 from flask import Flask, render_template
 from models import storage
 from models.state import State
