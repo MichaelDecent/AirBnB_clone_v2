@@ -24,8 +24,9 @@ def display_states(id=None):
     state_obj = None
     for state in states:
         if state.id == id:
-            state_obj = state 
+            state_obj = state
     return render_template('9-states.html', state_obj=state_obj)
+
 
 @app.teardown_appcontext
 def teardown(self):
